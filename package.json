@@ -1,0 +1,18 @@
+{
+  "name": "aquashield-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.mjs",
+    "preview": "node src/build.mjs --preview && node src/serve.mjs",
+    "dev": "node src/dev.mjs",
+    "deploy": "wrangler deploy",
+    "images": "node tools/images.mjs",
+    "test": "node --test src/lib/enquiry.test.js"
+  },
+  "devDependencies": {
+    "@fontsource-variable/mona-sans": "5.3.0",
+    "wrangler": "4.141.0"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aquashield",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-01",
+
+  // Uncomment once the domain is registered and its zone is on this
+  // Cloudflare account; wrangler then creates the DNS records itself.
+  // The domain must match SITE.url in site.config.mjs.
+  // "routes": [
+  //   { "pattern": "aquashield.eu", "custom_domain": true },
+  //   { "pattern": "www.aquashield.eu", "custom_domain": true }
+  // ],
+
+  // wrangler runs the production build before every `wrangler dev` and
+  // `wrangler deploy`. It stops with an error while a contact detail in
+  // site.config.mjs is still missing, so a placeholder cannot be deployed.
+  "build": {
+    "command": "node src/build.mjs",
+    "watch_dir": ["src", "static", "site.config.mjs"]
+  },
+
+  "assets": {
+    "directory": "dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+
+  // Enquiries are stored here first (180 days), then announced by e-mail.
+  // Create it with `npx wrangler kv namespace create DOPYTY` and paste the id.
+  "kv_namespaces": [{ "binding": "DOPYTY", "id": "REPLACE_WITH_KV_NAMESPACE_ID" }],
+
+  // Where the e-mail about a new enquiry goes, and from which verified
+  // Resend address. The key itself is a secret: `npx wrangler secret put RESEND_API_KEY`.
+  "vars": {
+    "NOTIFY_TO": "",
+    "NOTIFY_FROM": ""
+  },
+
+  "observability": { "enabled": true }
+}
